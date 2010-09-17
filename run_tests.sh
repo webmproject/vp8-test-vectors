@@ -17,6 +17,7 @@ Options:
     --codec=<name>              Codec to pass to example [vp8]
     --exec=<name>               Name of executable to run [./ivfdec]
     --show-fail                 Identifies which frames fail the test
+    --threads=<num>             Choose the number of threads to use
 EOF
     exit 1
 }
@@ -44,6 +45,8 @@ for opt in "$@"; do
     ;;
     --show-fail) show_fails=true
     ;;
+    --threads=*) threads="-t $optval"
+    ;;
     --exit-early) exit_early=true
     ;;
     -*) die_unknown $opt
@@ -59,7 +62,7 @@ result=0
 for f in `ls "$dir"/*.${ext}`; do
     base_name=${f##*/}
     test_name=${base_name%%.*}
-    ${executable:-./ivfdec} ${codec} --md5 -q -p ${test_name} $f > /tmp/$$.md5
+    ${executable:-./ivfdec} ${codec} --md5 ${threads} -q -p ${test_name} $f > /tmp/$$.md5
 
     if diff -ub /tmp/$$.md5 $f.md5 > /tmp/$$.md5.diff; then
         echo $f - pass
