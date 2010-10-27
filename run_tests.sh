@@ -6,16 +6,16 @@ set -e
 
 show_help() {
     cat <<EOF
-Usage: ${self_basename} <path_to_dir_containing_tests> 
+Usage: ${self_basename} <path_to_dir_containing_tests>
 
 This script decodes all .ivf files in the given directory, taking an md5sum of
 each frame, and comparing the md5sums to known good values in the corresponding
 .ivf.md5 file.
 
 Options:
-    --help                      Print this message 
+    --help                      Print this message
     --codec=<name>              Codec to pass to example [vp8]
-    --exec=<name>               Name of executable to run [./ivfdec]
+    --exec=<name>               Name of executable to run [./vpxdec]
     --show-fail                 Identifies which frames fail the test
     --threads=<num>             Choose the number of threads to use
 EOF
@@ -62,7 +62,17 @@ result=0
 for f in `ls "$dir"/*.${ext}`; do
     base_name=${f##*/}
     test_name=${base_name%%.*}
-    ${executable:-./ivfdec} ${codec} --md5 ${threads} -q -p ${test_name} $f > /tmp/$$.md5
+
+    executable=${executable:-./vpxdec}
+    case "$executable" in
+        *ivfdec)
+            ${executable} ${codec} --md5 ${threads} \
+                -q -p ${test_name} $f > /tmp/$$.md5
+            ;;
+        *)
+            ${executable} ${codec} --md5 ${threads} \
+                -o ${test_name}-%wx%h-%4.i420 --i420 $f > /tmp/$$.md5
+    esac
 
     if diff -ub /tmp/$$.md5 $f.md5 > /tmp/$$.md5.diff; then
         echo $f - pass
