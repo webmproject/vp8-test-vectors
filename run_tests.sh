@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 self=$0
 self_basename=${self##*/}
 EOL=$'\n'
