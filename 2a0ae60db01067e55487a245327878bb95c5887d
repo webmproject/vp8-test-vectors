@@ -1,6 +1,14 @@
 Code-Review+2: John Koleszar <jkoleszar@google.com>
 Verified+1: John Koleszar <jkoleszar@google.com>
 Submitted-by: John Koleszar <jkoleszar@google.com>
+Submitted-at: Thu, 23 Feb 2012 15:38:38 -0700
+Reviewed-on: https://gerrit.chromium.org/gerrit/16514
+Project: webm/vp8-test-vectors
+Branch: refs/heads/master
+
+Code-Review+2: John Koleszar <jkoleszar@google.com>
+Verified+1: John Koleszar <jkoleszar@google.com>
+Submitted-by: John Koleszar <jkoleszar@google.com>
 Submitted-at: Thu, 23 Feb 2012 14:38:38 -0800
 Reviewed-on: https://gerrit.chromium.org/gerrit/16514
 Project: webm/vp8-test-vectors
